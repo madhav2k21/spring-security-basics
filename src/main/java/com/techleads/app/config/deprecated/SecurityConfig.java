@@ -1,23 +1,19 @@
-package com.techleads.app.config;
+package com.techleads.app.config.deprecated;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-@Configuration
-public class AppConfig extends WebSecurityConfigurerAdapter {
-    private final Log logger = LogFactory.getLog(AppConfig.class);
+//@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final Log logger = LogFactory.getLog(SecurityConfig.class);
 
-//    myAccount -> secure
+    //    myAccount -> secure
 //            myBalance -> secure
 //    myLoans -> secure
 //            myCards -> secure
@@ -63,6 +59,7 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
         */
     }
 
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("current inside configure(AuthenticationManagerBuilder auth) method");
@@ -78,10 +75,44 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
         userDetailsManager.createUser(user1);
         userDetailsManager.createUser(user2);
         auth.userDetailsService(userDetailsManager);
+
+
+
     }
+*/
+
+
+    //*******3rd approach***********
+   /* @Bean
+    public UserDetailsService userDetailsService(DataSource dataSource){
+        //used the spring provided tables
+        // users (username, password, enabled) values (?,?,?)
+        // authorities (username, authority) values (?,?)
+        //from this class JdbcUserDetailsManager
+
+        *//*SELECT * FROM easy_bank.authorities;CREATE TABLE `authorities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `authority` varchar(45) NOT NULL,
+        PRIMARY KEY (`id`)
+) *//*
+
+     *//*        CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `enabled` int NOT NULL,
+                PRIMARY KEY (`id`)
+) *//*
+
+
+
+        return new JdbcUserDetailsManager(dataSource);
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A);
         return NoOpPasswordEncoder.getInstance();
     }
 }
